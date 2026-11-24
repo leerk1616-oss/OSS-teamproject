@@ -7,7 +7,13 @@ SEG_SIZE = 20
 class SnakeGame:
     def __init__(self, root):
         self.root = root
-        self.root.title("Snake Game v1.0")
+        self.root.title("Snake Game v1.0 - Score Edition")
+        self.score = 0
+        self.high_score = 0
+
+        self.score_label = tk.Label(root, text=f"Score: {self.score}  |  High Score: {self.high_score}", font=("Arial", 12, "bold"))
+        self.score_label.pack()
+
         self.canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT, bg="black")
         self.canvas.pack()
 
@@ -51,6 +57,10 @@ class SnakeGame:
 
         self.snake.insert(0, new_head)
         if new_head == self.food:
+            self.score += 10
+            if self.score > self.high_score:
+                self.high_score = self.score
+            self.score_label.config(text=f"Score: {self.score}  |  High Score: {self.high_score}")
             self.food = self.create_food()
         else:
             self.snake.pop()
